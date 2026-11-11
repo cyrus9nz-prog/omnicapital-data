@@ -1,0 +1,887 @@
+<meta name="dash-one-writer">
+<style>
+.sw { display: grid; gap: var(--cds-gap-lg); font-family: var(--font-anthropic-sans); color: var(--color-fg); }
+.sw-head { display: grid; gap: var(--cds-gap-sm); }
+.sw-title { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); margin: 0; text-wrap: balance; }
+.sw-lede { margin: 0; max-width: 70ch; font-size: var(--cds-font-size-body); color: var(--color-fg-muted); }
+.sw-lede b { font-variant-numeric: tabular-nums; color: var(--color-fg); font-weight: var(--cds-font-weight-medium); }
+.sw-note { margin: 0; color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); max-width: 75ch; }
+.sw-empty { margin: 0; padding: var(--cds-pad-lg); border: 1px dashed var(--color-border-line); border-radius: var(--cds-radius); color: var(--color-fg-muted); max-width: 70ch; }
+
+/* KPI tiles */
+.sw-kpis { display: grid; gap: var(--cds-gap-sm); grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)); }
+.sw-kpi { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-md) var(--cds-pad-lg); display: grid; gap: 2px; min-width: 0; }
+.sw-kpi-label { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.sw-kpi-num { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); font-variant-numeric: tabular-nums; line-height: 1.15; }
+.sw-kpi-num.ok { color: var(--color-ok); }
+.sw-kpi-sub { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); font-variant-numeric: tabular-nums; }
+
+/* Tabs */
+.sw-tabs { position: sticky; top: 0; z-index: 3; display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; background: var(--color-bg); border-bottom: 1px solid var(--color-border-line); padding-top: var(--cds-pad-xs); }
+.sw-tabs::-webkit-scrollbar { display: none; }
+.sw-tab { appearance: none; border: 0; background: none; color: var(--color-fg-muted); font: inherit; font-size: var(--cds-font-size-body); padding: var(--cds-pad-sm) var(--cds-pad-md); border-bottom: 2px solid transparent; margin-bottom: -1px; cursor: pointer; white-space: nowrap; display: inline-flex; gap: 6px; align-items: baseline; border-radius: var(--cds-radius) var(--cds-radius) 0 0; }
+.sw-tab:hover { color: var(--color-fg); background: var(--color-panel); }
+.sw-tab[aria-selected="true"] { color: var(--color-fg); border-bottom-color: var(--color-fg); font-weight: var(--cds-font-weight-medium); }
+.sw-tab:focus-visible { outline: 2px solid var(--color-fg); outline-offset: -2px; }
+.sw-count { font-size: var(--cds-font-size-caption); font-variant-numeric: tabular-nums; color: var(--color-fg-muted); background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: 999px; padding: 0 6px; font-weight: 400; }
+
+.sw-sec { display: grid; gap: var(--cds-gap-sm); min-width: 0; }
+.sw-sec h2 { margin: 0; font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); }
+.sw-sec h3 { margin: var(--cds-gap-sm) 0 0; font-size: var(--cds-font-size-body); font-weight: var(--cds-font-weight-medium); }
+.sw-sub { margin: 0; color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); max-width: 80ch; }
+
+/* Toolbar */
+.sw-bar { display: flex; flex-wrap: wrap; gap: var(--cds-gap-sm); align-items: center; }
+.sw-search { flex: 1 1 180px; min-width: 0; font: inherit; font-size: var(--cds-font-size-body); color: var(--color-fg); background-color: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: 6px 10px; }
+.sw-search:focus-visible { outline: 2px solid var(--color-fg); outline-offset: 1px; }
+.sw-seg { display: inline-flex; border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); overflow: hidden; }
+.sw-seg button { appearance: none; border: 0; background: var(--color-panel); color: var(--color-fg-muted); font: inherit; font-size: var(--cds-font-size-caption); padding: 6px 10px; cursor: pointer; white-space: nowrap; }
+.sw-seg button + button { border-left: 1px solid var(--color-border-line); }
+.sw-seg button[aria-pressed="true"] { background: var(--color-fg); color: var(--color-bg); }
+.sw-shown { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); font-variant-numeric: tabular-nums; }
+
+/* Watchlist cards */
+.sw-wl { display: grid; gap: var(--cds-gap-md); grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); min-height: 8rem; position: relative; }
+.sw-wc { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-md) var(--cds-pad-lg); display: grid; gap: var(--cds-gap-sm); align-content: start; min-width: 0; transition: border-color .15s; }
+.sw-wc:hover { border-color: var(--color-fg-muted); }
+.sw-wc-top { display: flex; justify-content: space-between; gap: var(--cds-gap-sm); align-items: start; }
+.sw-wc-id { min-width: 0; }
+.sw-wc-tk { font-weight: var(--cds-font-weight-medium); font-size: var(--cds-font-size-heading); }
+.sw-wc-co { display: block; color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sw-wc-px { text-align: right; flex: none; }
+.sw-wc-price { font-family: var(--font-anthropic-serif); font-size: var(--cds-font-size-heading); font-variant-numeric: tabular-nums; display: block; }
+.sw-wc-date { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); font-variant-numeric: tabular-nums; }
+.sw-wc-pills { display: flex; flex-wrap: wrap; gap: 4px; }
+.sw-wc-why { margin: 0; font-size: var(--cds-font-size-caption); line-height: 1.45; }
+.sw-gauge { position: relative; }
+.sw-gauge svg { display: block; width: 100%; overflow: visible; }
+.sw-gauge-key { display: flex; flex-wrap: wrap; gap: 4px var(--cds-gap-md); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); font-variant-numeric: tabular-nums; }
+.sw-gauge-key i { display: inline-block; width: 10px; height: 6px; border-radius: 2px; margin-right: 4px; vertical-align: middle; }
+.sw-wc details { font-size: var(--cds-font-size-caption); }
+.sw-wc summary { cursor: pointer; color: var(--color-fg-muted); list-style: none; display: inline-flex; gap: 4px; align-items: center; }
+.sw-wc summary::-webkit-details-marker { display: none; }
+.sw-wc summary::before { content: '▸'; transition: transform .15s; display: inline-block; }
+.sw-wc details[open] summary::before { transform: rotate(90deg); }
+.sw-wc dl { margin: var(--cds-gap-sm) 0 0; display: grid; gap: 2px; }
+.sw-wc dt { color: var(--color-fg-muted); margin-top: var(--cds-gap-xs); }
+.sw-wc dd { margin: 0; overflow-wrap: anywhere; line-height: 1.45; }
+.sw-wc ul { margin: 0; padding-left: 1.1em; display: grid; gap: 2px; }
+.sw-none { grid-column: 1 / -1; color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); padding: var(--cds-pad-md); }
+
+/* Tables and shared bits (signals, plays) */
+.sw-scroll { overflow-x: auto; border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); background: var(--color-panel); }
+.sw-table { border-collapse: collapse; width: 100%; font-size: var(--cds-font-size-caption); }
+.sw-table th { text-align: left; font-weight: var(--cds-font-weight-medium); color: var(--color-fg-muted); padding: var(--cds-pad-sm) var(--cds-pad-md); border-bottom: 1px solid var(--color-border-line); white-space: nowrap; background: var(--color-panel); }
+.sw-table td { padding: var(--cds-pad-sm) var(--cds-pad-md); border-bottom: 1px solid var(--color-border-line); vertical-align: top; }
+.sw-table tbody tr:hover td { background: var(--color-bg); }
+.sw-table tr:last-child td { border-bottom: 0; }
+.sw-num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.sw-wide { min-width: 22ch; max-width: 40ch; }
+.sw-tk { font-weight: var(--cds-font-weight-medium); white-space: nowrap; }
+.sw-co { display: block; color: var(--color-fg-muted); font-weight: 400; white-space: normal; max-width: 18ch; }
+.sw-pill { display: inline-block; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--color-border-line); white-space: nowrap; font-size: var(--cds-font-size-caption); line-height: 1.5; }
+.sw-pill.ok { color: var(--color-ok); border-color: var(--color-ok); }
+.sw-pill.warn { color: var(--color-warn); border-color: var(--color-warn); }
+.sw-pill.bad { color: var(--color-bad); border-color: var(--color-bad); }
+.sw-pill.mute { color: var(--color-fg-muted); }
+.sw-pill.sb { background: var(--color-ok); border-color: var(--color-ok); color: var(--color-bg); font-weight: var(--cds-font-weight-medium); }
+.sw-pill.sn { background: var(--color-bad); border-color: var(--color-bad); color: var(--color-bg); font-weight: var(--cds-font-weight-medium); }
+.sw-cards { display: grid; gap: var(--cds-gap-md); grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); min-height: 4rem; }
+.sw-card { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); display: grid; gap: var(--cds-gap-sm); min-width: 0; align-content: start; }
+.sw-card h3 { margin: 0; font-size: var(--cds-font-size-body); font-weight: var(--cds-font-weight-medium); display: flex; gap: var(--cds-gap-sm); align-items: baseline; flex-wrap: wrap; }
+.sw-card dl { margin: 0; display: grid; gap: var(--cds-gap-xs); }
+.sw-card dt { color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+.sw-card dd { margin: 0 0 var(--cds-gap-xs); font-size: var(--cds-font-size-caption); overflow-wrap: anywhere; }
+.sw > details, .sw-sec > details { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); max-width: 75ch; }
+.sw-sec > details p { margin: var(--cds-gap-xs) 0; }
+.sw-sec > details summary { cursor: pointer; }
+.sw-scale { display: flex; flex-wrap: wrap; gap: var(--cds-gap-sm); align-items: center; }
+.sw-scale-item { display: flex; gap: 6px; align-items: baseline; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: 4px 10px; }
+.sw-scale-item b { font-variant-numeric: tabular-nums; color: var(--color-fg); font-size: var(--cds-font-size-body); }
+.sw-h-chg.up, .sw-ret.up { color: var(--color-ok); } .sw-h-chg.down, .sw-ret.down { color: var(--color-bad); }
+.sw-heat { position: relative; display: grid; border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); background: var(--color-panel); min-height: 3rem; }
+.sw-hrow { display: grid; grid-template-columns: minmax(7ch, auto) 4.5ch minmax(140px, 1fr) minmax(90px, 160px); grid-template-areas: "tk num bar spark" "tk num note note"; column-gap: var(--cds-gap-md); row-gap: var(--cds-gap-xs); align-items: center; padding: var(--cds-pad-sm) var(--cds-pad-md); border-bottom: 1px solid var(--color-border-line); }
+.sw-hrow:last-child { border-bottom: 0; }
+@media (max-width: 520px) { .sw-hrow { grid-template-columns: minmax(7ch, auto) 4.5ch 1fr; grid-template-areas: "tk num bar" "tk num spark" "note note note"; } }
+.sw-h-tk { grid-area: tk; display: grid; gap: 2px; align-content: center; }
+.sw-h-tk b { font-weight: var(--cds-font-weight-medium); }
+.sw-h-num { grid-area: num; font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); font-variant-numeric: tabular-nums; text-align: right; }
+.sw-h-bar { grid-area: bar; display: grid; gap: 2px; min-width: 0; }
+.sw-h-bar svg, .sw-h-spark svg { display: block; width: 100%; overflow: visible; }
+.sw-h-parts { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); font-variant-numeric: tabular-nums; }
+.sw-h-spark { grid-area: spark; min-width: 0; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.sw-h-note { grid-area: note; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); display: flex; gap: var(--cds-gap-sm); flex-wrap: wrap; align-items: baseline; min-width: 0; }
+.sw-h-chg { font-variant-numeric: tabular-nums; }
+.sw-tip { position: absolute; pointer-events: none; background: var(--cds-surface-popover); border: 1px solid var(--cds-border); box-shadow: var(--cds-shadow-popover); border-radius: var(--cds-radius); padding: 4px 8px; font-size: var(--cds-font-size-caption); color: var(--color-fg); white-space: nowrap; z-index: 4; }
+[data-dash-source-state=refreshing] { opacity: .5; transition: opacity .2s; }
+@media (prefers-reduced-motion: no-preference) {
+  .sw-sec:not([hidden]) { animation: sw-in var(--cds-dur-slow, .25s) var(--cds-ease-out, ease-out); }
+  @keyframes sw-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+}
+</style>
+
+<div class="sw">
+  <header class="sw-head" id="top">
+    <h1 class="sw-title">Stock Desk Watchlist</h1>
+    <p class="sw-lede" id="lede" data-source="summary"><b data-draw="n" data-source="summary" data-field="tickers" data-row="0">—</b> stocks on the list, prices as of <b data-draw="asof" data-source="summary" data-field="as_of" data-row="0">—</b>. <b data-draw="under" data-source="summary" data-field="undervalued" data-row="0">—</b> look undervalued on two or more methods, and <b data-draw="plays" data-source="summary" data-field="plays" data-row="0">—</b> have a play that passed every gate; <b data-draw="noact" data-source="summary" data-field="no_action" data-row="0">—</b> are no action for now.</p>
+    <p class="sw-empty" id="empty" hidden>The first scan hasn't filled this page yet. Each weekday the scout picks 10 to 20 stocks under $250 that fit the playbook (morning, midday and after the close), the researcher checks each one, and the trader decides whether any of them is a play.</p>
+  </header>
+
+  <div class="sw-kpis" id="kpis">
+    <div class="sw-kpi" id="kpi-listed">
+      <span class="sw-kpi-label">On the list</span>
+      <span class="sw-kpi-num" data-draw="k-n" data-source="summary" data-field="tickers" data-row="0">—</span>
+      <span class="sw-kpi-sub"><span data-draw="k-sp" data-source="summary" data-field="sp500" data-row="0">—</span> S&amp;P 500 · <span data-draw="k-sm" data-source="summary" data-field="smallmid" data-row="0">—</span> small/mid</span>
+    </div>
+    <div class="sw-kpi" id="kpi-under">
+      <span class="sw-kpi-label">Undervalued</span>
+      <span class="sw-kpi-num ok" data-draw="k-u" data-source="summary" data-field="undervalued" data-row="0">—</span>
+      <span class="sw-kpi-sub">fair value ≥20% above price on 2+ methods</span>
+    </div>
+    <div class="sw-kpi" id="kpi-asof">
+      <span class="sw-kpi-label">Prices as of</span>
+      <span class="sw-kpi-num" data-draw="k-asof" data-source="summary" data-field="as_of" data-row="0">—</span>
+      <span class="sw-kpi-sub">morning and midday scans use live prices</span>
+    </div>
+    <div class="sw-kpi" id="kpi-hot">
+      <span class="sw-kpi-label">Hottest</span>
+      <span class="sw-kpi-num" data-draw="k-hot" data-source="heat_latest" data-field="ticker" data-row="0">—</span>
+      <span class="sw-kpi-sub">heat <span data-draw="k-hotn" data-source="heat_latest" data-field="heat" data-row="0">—</span> of 100</span>
+    </div>
+  </div>
+
+  <nav class="sw-tabs" id="tabs" role="tablist" aria-label="Sections">
+    <button class="sw-tab" role="tab" data-tab="watchlist" aria-selected="true">Watchlist <span class="sw-count" data-draw="t-wl" data-source="summary" data-field="tickers" data-row="0">—</span></button>
+    <button class="sw-tab" role="tab" data-tab="signals" aria-selected="false">Signals</button>
+    <button class="sw-tab" role="tab" data-tab="heat" aria-selected="false">Heat</button>
+    <button class="sw-tab" role="tab" data-tab="plays" aria-selected="false">Plays</button>
+    <button class="sw-tab" role="tab" data-tab="research" aria-selected="false">Research</button>
+  </nav>
+
+  <section class="sw-sec" id="watchlist" role="tabpanel">
+    <div class="sw-bar" id="wl-bar">
+      <input class="sw-search" id="wl-search" type="search" placeholder="Search ticker, company or reason" aria-label="Search the watchlist">
+      <div class="sw-seg" id="wl-lane" role="group" aria-label="List">
+        <button data-v="" aria-pressed="true">All</button>
+        <button data-v="S&amp;P" aria-pressed="false">S&amp;P 500</button>
+        <button data-v="Small" aria-pressed="false">Small/mid</button>
+      </div>
+      <select class="dash-select" id="wl-label" aria-label="Value label">
+        <option value="">Any label</option>
+        <option value="UNDERVALUED">Undervalued</option>
+        <option value="FAIR">Fair</option>
+        <option value="OVERVALUED">Overvalued</option>
+        <option value="CAN'T TELL">Can't tell</option>
+      </select>
+      <select class="dash-select" id="wl-sort" aria-label="Sort">
+        <option value="upside">Sort: most upside to fair value</option>
+        <option value="ticker">Sort: ticker A–Z</option>
+        <option value="price">Sort: price, low to high</option>
+        <option value="traits">Sort: most big-winner traits</option>
+        <option value="new">Sort: newest first</option>
+      </select>
+      <span class="sw-shown" data-draw="wl-shown" data-source="watchlist">—</span>
+    </div>
+    <div class="sw-wl" id="watch-cards" data-draw="watch-cards" data-source="watchlist"></div>
+    <details>
+      <summary>How to read a card</summary>
+      <p>The bar under each stock puts today's price (the dark tick) against two ranges: the grey band is where one month of normal volatility could take it (one standard deviation, about two times in three), and the green band is the desk's fair-value range from at least two valuation methods. A price left of the green band means the methods value the stock above its price. Undervalued needs two methods 20% or more above the price.</p>
+      <p>Big-winner traits count observable features of past big winners (fast revenue growth, widening margins, an earnings beat, price above its 200-day average, beating the S&amp;P 500 over six months). Having them doesn't predict the outcome. "S&amp;P 500 · tested rules" stocks passed screens that were backtested; "Small/mid · untested rules" stocks passed growth and trend rules no one has tested on that group.</p>
+    </details>
+  </section>
+
+  <section class="sw-sec" id="signals" role="tabpanel" hidden>
+    <h2>Signals: strong buy to sell now</h2>
+    <p class="sw-sub">The trader rates every listed stock each day on one scale. A buy opens a paper position and a sell closes it, and each closed position is compared with the S&amp;P 500 over the same days, so the record shows whether the rules work. These are the desk's paper signals under its rules, not orders.</p>
+    <p class="sw-empty" id="sig-empty" hidden>No ratings yet. The trader writes them after its first run. Most days most stocks will be hold: a buy needs several rules to line up at once.</p>
+    <div class="sw-scale" id="sig-scale" data-source="rating_summary">
+      <span class="sw-scale-item"><span class="sw-pill sb">Strong buy</span><b data-draw="sc-sb" data-source="rating_summary" data-field="strong_buy" data-row="0">—</b></span>
+      <span class="sw-scale-item"><span class="sw-pill ok">Buy</span><b data-draw="sc-b" data-source="rating_summary" data-field="buy" data-row="0">—</b></span>
+      <span class="sw-scale-item"><span class="sw-pill">Hold</span><b data-draw="sc-h" data-source="rating_summary" data-field="hold" data-row="0">—</b></span>
+      <span class="sw-scale-item"><span class="sw-pill warn">Sell</span><b data-draw="sc-s" data-source="rating_summary" data-field="sell" data-row="0">—</b></span>
+      <span class="sw-scale-item"><span class="sw-pill sn">Sell now</span><b data-draw="sc-sn" data-source="rating_summary" data-field="sell_now" data-row="0">—</b></span>
+    </div>
+    <h3 id="ratings-head">Today's ratings</h3>
+    <div class="sw-scroll">
+      <table class="sw-table" id="ratings-table" data-source="ratings" data-row-key="ticker,date">
+        <thead><tr>
+          <th data-field="ticker">Stock</th>
+          <th data-field="rating">Rating</th>
+          <th data-field="price">Price</th>
+          <th data-field="trigger">Entry trigger or exit</th>
+          <th data-field="stop">Stop</th>
+          <th data-field="target">Target</th>
+          <th data-field="shares">Shares</th>
+          <th data-field="risk_usd">Risk ($)</th>
+          <th data-field="reason">Why</th>
+        </tr></thead>
+        <tbody data-draw="rating-rows"></tbody>
+      </table>
+    </div>
+    <h3 id="positions-head">Paper positions</h3>
+    <p class="sw-sub"><span data-draw="pos-line" data-source="position_summary">—</span></p>
+    <div class="sw-scroll">
+      <table class="sw-table" id="positions-table" data-source="positions" data-row-key="id">
+        <thead><tr>
+          <th data-field="ticker">Stock</th>
+          <th data-field="opened">Opened</th>
+          <th data-field="rating_at_open">Rating then</th>
+          <th data-field="status">Status</th>
+          <th data-field="entry">Entry</th>
+          <th data-field="stop">Stop</th>
+          <th data-field="target">Target</th>
+          <th data-field="shares">Shares</th>
+          <th data-field="last_price">Last price</th>
+          <th data-field="return_pct">Return</th>
+          <th data-field="spy_return_pct">S&amp;P 500, same days</th>
+          <th data-field="exit_reason">Exit</th>
+        </tr></thead>
+        <tbody data-draw="position-rows"></tbody>
+      </table>
+    </div>
+    <details>
+      <summary>What each rating means</summary>
+      <p>Buy: at least three playbook rules from two different schools fire, an entry rule triggers at today's price, the researcher found nothing disqualifying, and a position fits your risk tier (shares = tier dollars ÷ distance to the stop: up to $15 on the tested S&amp;P 500 lane, up to $10 on the untested small/mid lane).</p>
+      <p>Strong buy: everything a buy needs, plus an undervalued label on two or more methods, the researcher confirming the call, no red flags, no "hype ahead of evidence" flag, the S&amp;P 500's 50-day average above its 200-day, and four or more rules from three schools (or at least one A-graded rule).</p>
+      <p>Hold: the default. For a stock with no position it means no entry yet, with the price that would make it a buy when there is one; for an open position it means no exit has triggered.</p>
+      <p>Sell: an exit by plan (the target is reached, the 20-day time limit or a mixed-indicator bar), or for a stock with no position a bearish lean that playbook rules support. Bearish trades use puts only when the options checks pass.</p>
+      <p>Sell now: a hard exit: the stop is hit, the trade's invalidation condition is met, the researcher contradicts the call or finds a disqualifying red flag, or, for the tested lane, the S&amp;P 500's 50-day average falls below its 200-day.</p>
+      <p>Paper positions fill at the trigger level (a buy-stop fills only if a later day trades through it, and is cancelled on a mixed-indicator bar first). If a stop and a target fall inside the same day's range, the stop is assumed. Returns are before costs.</p>
+    </details>
+  </section>
+
+  <section class="sw-sec" id="heat" role="tabpanel" hidden>
+    <h2>Heat tracker</h2>
+    <p class="sw-sub">How hot each stock is, out of 100: 60% substance (playbook fit, value, trend, insider buying, fund flows, catalysts, minus red flags) and 40% buzz (news tone and volume, Reddit, X). A wide gap between the two is flagged. Heat is an untested desk score, not a buy signal; the trader's verdict below is the call.</p>
+    <p class="sw-empty" id="heat-empty" hidden>Heat scores appear after the researcher's first run.</p>
+    <div class="sw-heat" data-draw="heat-rows" data-source="heat_latest heat"></div>
+    <details>
+      <summary>How heat is scored</summary>
+      <p>Substance, 0–100: playbook fit up to 25 (5 per A-graded rule that fired, 3 per B, 2 per C, 1 per D); value up to 20 (undervalued 20, fair 10, can't tell 5, overvalued 0); trend up to 15 (5 each for price above its 200-day average, beating the S&amp;P 500 over six months, and the S&amp;P 500's 50-day average above its 200-day); insiders up to 20 (open-market buying by two or more officers or directors 20, by one 12, none 8, net selling outside pre-set plans 0); funds up to 10 (13F holdings rising 10, flat 5, falling 0); catalysts up to 10 (a dated positive event in the last 90 days, such as a government award or major deal). Minus 10 for each red flag: share sales or an at-the-market program, going-concern doubt, a short-seller report, or insiders and sponsors selling into retail demand.</p>
+      <p>Buzz, 0–100: news tone up to 40 (from the relevance-weighted sentiment of the past week's articles), news volume up to 20 (past week against the prior month's weekly average), Reddit up to 20 and X up to 20 (none, some, heavy, and whether mostly positive). A source the researcher couldn't read is left out and buzz is scaled over the rest.</p>
+      <p>Heat = 0.6 × substance + 0.4 × buzz. Hot is 80 and up, warm 60–79, neutral 40–59, cold under 40. "Hype ahead of evidence" means buzz is 30 or more points above substance: attention without support, the setup where people buy the top. "Quiet strength" is the reverse. Each day's scores are kept with the price, so the desk can later check whether heat meant anything.</p>
+    </details>
+  </section>
+
+  <section class="sw-sec" id="plays" role="tabpanel" hidden>
+    <h2>Plays</h2>
+    <p class="sw-sub">The trader's verdict for each stock. No action is the default; a structure appears only when it passed the options-data, move, liquidity, event and risk gates.</p>
+    <div class="sw-scroll">
+      <table class="sw-table" id="plays-table" data-source="plays" data-row-key="ticker">
+        <thead><tr>
+          <th data-field="ticker">Stock</th>
+          <th data-field="verdict">Verdict</th>
+          <th data-field="horizon">Horizon</th>
+          <th data-field="entry">Entry or exit</th>
+          <th data-field="structure">Options structure</th>
+          <th data-field="max_loss_usd">Max loss ($)</th>
+          <th data-field="tier_ok">Within risk tier</th>
+          <th data-field="invalidation">Wrong if</th>
+          <th data-field="review_by">Review by</th>
+          <th data-field="no_action_prob">Chance doing nothing is right</th>
+          <th data-field="unknown">Biggest unknown</th>
+        </tr></thead>
+        <tbody data-draw="play-rows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="sw-sec" id="research" role="tabpanel" hidden>
+    <h2>Research</h2>
+    <p class="sw-sub">The researcher's second look: filings, insiders, government contracts, partners and what people are saying.</p>
+    <div class="sw-cards" data-draw="research-cards" data-source="research"></div>
+  </section>
+
+
+  <p class="sw-note" id="disclaimer">For Cyrus's research only. Nothing here is an order or advice; you decide and size. One-month and three-month ranges are volatility estimates, not forecasts. Fair value comes from at least two valuation methods. Built from a playbook whose rules are mostly untested.</p>
+</div>
+
+<script>
+dash.calc('summary', {
+  title: 'List summary',
+  description: 'Counts from the watchlist and the plays: stocks listed, latest price date, undervalued labels, plays that passed every gate, and no-action verdicts.',
+  inputs: ['watchlist', 'plays'],
+  fn: (watchlist, plays) => [{
+    tickers: watchlist.length,
+    sp500: watchlist.filter((r) => /S&P/.test(r.universe || '')).length,
+    smallmid: watchlist.filter((r) => /Small/.test(r.universe || '')).length,
+    as_of: watchlist.map((r) => r.price_date).filter(Boolean).sort().pop() || null,
+    undervalued: watchlist.filter((r) => r.label === 'UNDERVALUED').length,
+    plays: plays.filter((p) => p.verdict === 'LONG-TERM BUY ZONE' || p.verdict === 'OPTIONS CANDIDATE').length,
+    no_action: plays.filter((p) => p.verdict === 'NO ACTION').length,
+  }],
+});
+
+window.swTone = function (v) {
+  const s = String(v || '').toUpperCase();
+  if (/UNDERVALUED|BUY ZONE|CONFIRMS|^YES$|^LONG$/.test(s)) return 'ok';
+  if (/OVERVALUED|AVOID|CONTRADICTS|^NO$|^SHORT$/.test(s)) return 'bad';
+  if (/WATCH|OPTIONS|WEAKENS|CAN'T TELL/.test(s)) return 'warn';
+  return '';
+};
+window.swPill = function (v) {
+  const span = document.createElement('span');
+  span.className = 'sw-pill ' + window.swTone(v);
+  span.textContent = v == null || v === '' ? '—' : v;
+  return span;
+};
+window.swCell = function (tr, value, cls) {
+  const td = document.createElement('td');
+  if (cls) td.className = cls;
+  if (value instanceof Node) td.appendChild(value); else td.textContent = value == null || value === '' ? '—' : value;
+  tr.appendChild(td);
+  return td;
+};
+
+dash.onData(() => {
+  const w = dash.data('watchlist');
+  const empty = w.status === 'ok' && w.data.length === 0;
+  document.querySelectorAll('#empty').forEach((el) => { el.hidden = !empty; });
+  document.querySelectorAll('#lede').forEach((el) => { el.hidden = empty; });
+});
+
+['n', 'under', 'plays', 'noact'].forEach((name) => {
+  const field = {n: 'tickers', under: 'undervalued', plays: 'plays', noact: 'no_action'}[name];
+  dash.draw(name, (el) => {
+    const s = dash.data('summary');
+    el.textContent = s.status === 'ok' && s.data && s.data[0] ? String(s.data[0][field]) : '—';
+  });
+});
+dash.draw('asof', (el) => {
+  const s = dash.data('summary');
+  const d = s.status === 'ok' && s.data && s.data[0] ? s.data[0].as_of : null;
+  el.textContent = d ? d3.utcFormat('%b %-d, %Y')(new Date(d + 'T00:00:00Z')) : '—';
+});
+
+dash.draw('play-rows', (tb) => {
+  const p = dash.data('plays');
+  tb.replaceChildren();
+  if (p.status !== 'ok') return;
+  p.data.forEach((r) => {
+    const tr = document.createElement('tr');
+    tr.dataset.key = encodeURIComponent(r.ticker);
+    window.swCell(tr, r.ticker, 'sw-tk');
+    window.swCell(tr, window.swPill(r.verdict));
+    window.swCell(tr, r.horizon);
+    window.swCell(tr, r.entry, 'sw-wide');
+    window.swCell(tr, r.structure, 'sw-wide');
+    window.swCell(tr, r.max_loss_usd == null || r.max_loss_usd === '' ? '—' : d3.format(',.0f')(+r.max_loss_usd), 'sw-num');
+    window.swCell(tr, window.swPill(r.tier_ok));
+    window.swCell(tr, r.invalidation, 'sw-wide');
+    window.swCell(tr, r.review_by, 'sw-num');
+    window.swCell(tr, r.no_action_prob, 'sw-num');
+    window.swCell(tr, r.unknown, 'sw-wide');
+    tb.appendChild(tr);
+  });
+});
+
+dash.draw('research-cards', (box) => {
+  const r = dash.data('research');
+  box.replaceChildren();
+  if (r.status !== 'ok') { box.textContent = r.status === 'error' ? 'Failed to load' : ''; return; }
+  const fields = [
+    ['long_term_case', 'Long-term case'], ['gov_contracts', 'Government contracts'], ['partners', 'Customers, suppliers and partners'],
+    ['insiders', 'Insider buying and selling'], ['institutions', 'Funds and institutions'], ['filings', 'Recent filings'],
+    ['sentiment', 'News, Reddit and X'], ['red_flags', 'Red flags'], ['sources', 'Sources'],
+  ];
+  r.data.forEach((row) => {
+    const card = document.createElement('article');
+    card.className = 'sw-card';
+    card.id = 'research-' + String(row.ticker).replace(/[^A-Za-z0-9_-]/g, '');
+    const h = document.createElement('h3');
+    const t = document.createElement('span');
+    t.textContent = row.ticker;
+    t.dataset.source = 'research'; t.dataset.field = 'ticker'; t.dataset.where = 'ticker=' + encodeURIComponent(row.ticker);
+    const pill = window.swPill(row.check);
+    pill.dataset.source = 'research'; pill.dataset.field = 'check'; pill.dataset.where = 'ticker=' + encodeURIComponent(row.ticker);
+    const d = document.createElement('span');
+    d.className = 'sw-sub';
+    d.textContent = row.date || '';
+    h.append(t, pill, d);
+    const dl = document.createElement('dl');
+    fields.forEach(([k, label]) => {
+      if (row[k] == null || row[k] === '') return;
+      const dt = document.createElement('dt'); dt.textContent = label;
+      const dd = document.createElement('dd'); dd.textContent = row[k];
+      dd.dataset.source = 'research'; dd.dataset.field = k; dd.dataset.where = 'ticker=' + encodeURIComponent(row.ticker);
+      dl.append(dt, dd);
+    });
+    card.append(h, dl);
+    box.appendChild(card);
+  });
+});
+dash.calc('heat_latest', {
+  title: 'Latest heat per stock',
+  description: 'Each stock scored on the most recent research date, ranked by heat, with the change since its previous score.',
+  inputs: ['heat'],
+  fn: (heat) => {
+    const dates = heat.map((r) => r.date).filter(Boolean).sort();
+    const latest = dates[dates.length - 1];
+    const byTicker = {};
+    heat.forEach((r) => { (byTicker[r.ticker] = byTicker[r.ticker] || []).push(r); });
+    const rows = [];
+    Object.keys(byTicker).forEach((t) => {
+      const rs = byTicker[t].slice().sort((a, b) => String(a.date).localeCompare(String(b.date)));
+      const last = rs[rs.length - 1];
+      if (last.date !== latest) return;
+      const prev = rs.length > 1 ? rs[rs.length - 2] : null;
+      rows.push({ ticker: t, date: last.date, heat: +last.heat, substance: +last.substance, buzz: +last.buzz, band: last.band, flag: last.flag, note: last.note,
+        change: prev ? +last.heat - +prev.heat : null });
+    });
+    return rows.sort((a, b) => b.heat - a.heat);
+  },
+});
+
+dash.onData(() => {
+  const h = dash.data('heat');
+  document.querySelectorAll('#heat-empty').forEach((el) => { el.hidden = !(h.status === 'ok' && h.data.length === 0); });
+});
+
+dash.draw('hot-tk', (el) => {
+  const s = dash.data('heat_latest');
+  el.textContent = s.status === 'ok' && s.data && s.data[0] ? s.data[0].ticker : '—';
+});
+dash.draw('hot-n', (el) => {
+  const s = dash.data('heat_latest');
+  el.textContent = s.status === 'ok' && s.data && s.data[0] ? String(s.data[0].heat) : '—';
+});
+
+dash.draw('heat-rows', (box) => {
+  const s = dash.data('heat_latest');
+  const hist = dash.data('heat');
+  box.replaceChildren();
+  if (s.status === 'error' || hist.status === 'error') { box.textContent = 'Failed to load'; return; }
+  if (s.status !== 'ok' || !s.data || !s.data.length) return;
+  const tip = document.createElement('div');
+  tip.className = 'sw-tip'; tip.hidden = true;
+  const showTip = (ev, text) => {
+    const r = box.getBoundingClientRect();
+    tip.textContent = text; tip.hidden = false;
+    const x = Math.min(ev.clientX - r.left + 10, r.width - tip.offsetWidth - 4);
+    tip.style.left = Math.max(4, x) + 'px';
+    tip.style.top = (ev.clientY - r.top - 34) + 'px';
+  };
+  const hideTip = () => { tip.hidden = true; };
+  const ns = 'http://www.w3.org/2000/svg';
+  const mk = (el, f) => { el.dataset.source = 'heat_latest'; el.dataset.field = f; return el; };
+  s.data.forEach((r) => {
+    const where = 'ticker=' + encodeURIComponent(r.ticker);
+    const row = document.createElement('div');
+    row.className = 'sw-hrow';
+    row.id = 'heat-' + String(r.ticker).replace(/[^A-Za-z0-9_-]/g, '');
+
+    const tk = document.createElement('div'); tk.className = 'sw-h-tk';
+    const b = mk(document.createElement('b'), 'ticker'); b.dataset.where = where; b.textContent = r.ticker;
+    const band = window.swPill(r.band); mk(band, 'band'); band.dataset.where = where;
+    band.className = 'sw-pill ' + ({Hot: 'ok', Warm: 'ok', Cold: 'bad'}[r.band] || '');
+    tk.append(b, band);
+
+    const num = mk(document.createElement('div'), 'heat'); num.className = 'sw-h-num'; num.dataset.where = where; num.textContent = String(r.heat);
+
+    const barBox = document.createElement('div'); barBox.className = 'sw-h-bar';
+    const svg = document.createElementNS(ns, 'svg');
+    svg.setAttribute('viewBox', '0 0 100 8'); svg.setAttribute('preserveAspectRatio', 'none'); svg.setAttribute('height', '10');
+    svg.setAttribute('role', 'img');
+    const sPart = Math.max(0, Math.min(60, 0.6 * r.substance));
+    const bPart = Math.max(0, Math.min(40, 0.4 * r.buzz));
+    svg.setAttribute('aria-label', r.ticker + ' heat ' + r.heat + ': substance ' + r.substance + ', buzz ' + r.buzz);
+    const bg = document.createElementNS(ns, 'rect'); bg.setAttribute('x', 0); bg.setAttribute('y', 0); bg.setAttribute('width', 100); bg.setAttribute('height', 8);
+    bg.style.fill = 'var(--cds-chart-grid)';
+    const r1 = document.createElementNS(ns, 'rect'); r1.setAttribute('x', 0); r1.setAttribute('y', 0); r1.setAttribute('width', sPart); r1.setAttribute('height', 8);
+    r1.style.fill = dash.colors[0];
+    const r2 = document.createElementNS(ns, 'rect'); r2.setAttribute('x', sPart); r2.setAttribute('y', 0); r2.setAttribute('width', bPart); r2.setAttribute('height', 8);
+    r2.style.fill = dash.colors[1] || dash.colors[0];
+    svg.append(bg, r1, r2);
+    svg.addEventListener('pointermove', (ev) => showTip(ev, 'Substance ' + r.substance + ' (adds ' + Math.round(sPart) + ') · Buzz ' + r.buzz + ' (adds ' + Math.round(bPart) + ')'));
+    svg.addEventListener('pointerleave', hideTip);
+    const parts = document.createElement('div'); parts.className = 'sw-h-parts';
+    const sv = mk(document.createElement('span'), 'substance'); sv.dataset.where = where; sv.textContent = String(r.substance);
+    const bv = mk(document.createElement('span'), 'buzz'); bv.dataset.where = where; bv.textContent = String(r.buzz);
+    parts.append('Substance ', sv, ' · Buzz ', bv);
+    barBox.append(svg, parts);
+
+    const spark = document.createElement('div'); spark.className = 'sw-h-spark';
+    const pts = (hist.status === 'ok' ? hist.data : []).filter((h) => h.ticker === r.ticker && h.date)
+      .sort((a, c) => String(a.date).localeCompare(String(c.date))).slice(-30);
+    if (pts.length > 1) {
+      const sv2 = document.createElementNS(ns, 'svg');
+      sv2.setAttribute('viewBox', '0 0 100 24'); sv2.setAttribute('preserveAspectRatio', 'none'); sv2.setAttribute('height', '24');
+      sv2.setAttribute('role', 'img'); sv2.setAttribute('aria-label', r.ticker + ' heat over the last ' + pts.length + ' scans');
+      const x = (i) => (i / (pts.length - 1)) * 100;
+      const y = (v) => 22 - (Math.max(0, Math.min(100, +v)) / 100) * 20;
+      const line = document.createElementNS(ns, 'polyline');
+      line.setAttribute('points', pts.map((p, i) => x(i) + ',' + y(p.heat)).join(' '));
+      line.style.fill = 'none'; line.style.stroke = dash.colors[0]; line.setAttribute('stroke-width', '1.5'); line.setAttribute('vector-effect', 'non-scaling-stroke');
+      sv2.append(line);
+      sv2.addEventListener('pointermove', (ev) => {
+        const rect = sv2.getBoundingClientRect();
+        const i = Math.round(((ev.clientX - rect.left) / rect.width) * (pts.length - 1));
+        const p = pts[Math.max(0, Math.min(pts.length - 1, i))];
+        showTip(ev, p.date + ': heat ' + p.heat);
+      });
+      sv2.addEventListener('pointerleave', hideTip);
+      spark.append(sv2);
+    } else {
+      spark.textContent = 'Trend builds after a second scan';
+    }
+
+    const note = document.createElement('div'); note.className = 'sw-h-note';
+    const flag = window.swPill(r.flag); mk(flag, 'flag'); flag.dataset.where = where;
+    flag.className = 'sw-pill ' + (r.flag === 'Hype ahead of evidence' ? 'warn' : r.flag === 'Quiet strength' ? 'ok' : '');
+    const chg = mk(document.createElement('span'), 'change'); chg.dataset.where = where;
+    chg.className = 'sw-h-chg' + (r.change > 0 ? ' up' : r.change < 0 ? ' down' : '');
+    chg.textContent = r.change == null ? 'new' : (r.change > 0 ? '+' : '') + r.change;
+    const nt = mk(document.createElement('span'), 'note'); nt.dataset.where = where; nt.textContent = r.note || '';
+    note.append(flag, chg, nt);
+
+    row.append(tk, num, barBox, spark, note);
+    box.appendChild(row);
+  });
+  box.appendChild(tip);
+});
+window.swRatingPill = function (v) {
+  const span = document.createElement('span');
+  const u = String(v || '').toUpperCase();
+  span.className = 'sw-pill ' + ({'STRONG BUY': 'sb', 'BUY': 'ok', 'SELL': 'warn', 'SELL NOW': 'sn'}[u] || '');
+  span.textContent = v == null || v === '' ? '—' : ({'STRONG BUY': 'Strong buy', 'BUY': 'Buy', 'HOLD': 'Hold', 'SELL': 'Sell', 'SELL NOW': 'Sell now'}[u] || v);
+  return span;
+};
+window.swPct = function (v) {
+  if (v == null || v === '' || isNaN(+v)) return '—';
+  return (+v > 0 ? '+' : '') + d3.format('.1f')(+v) + '%';
+};
+
+dash.calc('rating_summary', {
+  title: 'Ratings on the latest scan',
+  description: 'How many listed stocks the trader rated strong buy, buy, hold, sell and sell now on its most recent run.',
+  inputs: ['ratings'],
+  fn: (ratings) => {
+    const dates = ratings.map((r) => r.date).filter(Boolean).sort();
+    const latest = dates[dates.length - 1] || null;
+    const today = ratings.filter((r) => r.date === latest);
+    const n = (k) => today.filter((r) => String(r.rating).toUpperCase() === k).length;
+    return [{ date: latest, strong_buy: n('STRONG BUY'), buy: n('BUY'), hold: n('HOLD'), sell: n('SELL'), sell_now: n('SELL NOW') }];
+  },
+});
+
+dash.calc('position_summary', {
+  title: 'Paper positions record',
+  description: 'Open and closed paper positions from buy signals: how many closed with a gain, their average return, and the S&P 500 average return over the same days.',
+  inputs: ['positions'],
+  fn: (positions) => {
+    const open = positions.filter((p) => p.status === 'open' || p.status === 'pending');
+    const closed = positions.filter((p) => p.status === 'closed');
+    const avg = (xs) => xs.length ? Math.round((xs.reduce((a, b) => a + b, 0) / xs.length) * 10) / 10 : null;
+    return [{
+      open: open.length,
+      closed: closed.length,
+      winners: closed.filter((p) => +p.return_pct > 0).length,
+      avg_return: avg(closed.map((p) => +p.return_pct).filter((x) => !isNaN(x))),
+      avg_spy: avg(closed.map((p) => +p.spy_return_pct).filter((x) => !isNaN(x))),
+    }];
+  },
+});
+
+dash.onData(() => {
+  const r = dash.data('ratings');
+  const empty = r.status === 'ok' && r.data.length === 0;
+  document.querySelectorAll('#sig-empty').forEach((el) => { el.hidden = !empty; });
+  document.querySelectorAll('#sig-scale').forEach((el) => { el.hidden = empty; });
+});
+
+[['lede-sb', 'strong_buy'], ['lede-b', 'buy'], ['lede-s', 'sell'], ['lede-sn', 'sell_now'],
+ ['sc-sb', 'strong_buy'], ['sc-b', 'buy'], ['sc-h', 'hold'], ['sc-s', 'sell'], ['sc-sn', 'sell_now']].forEach(([name, field]) => {
+  dash.draw(name, (el) => {
+    const s = dash.data('rating_summary');
+    el.textContent = s.status === 'ok' && s.data && s.data[0] && s.data[0].date ? String(s.data[0][field]) : '—';
+  });
+});
+
+dash.draw('rating-rows', (tb) => {
+  const r = dash.data('ratings');
+  tb.replaceChildren();
+  if (r.status !== 'ok' || !r.data.length) return;
+  const dates = r.data.map((x) => x.date).filter(Boolean).sort();
+  const latest = dates[dates.length - 1];
+  const order = {'STRONG BUY': 0, 'BUY': 1, 'SELL NOW': 2, 'SELL': 3, 'HOLD': 4};
+  const money = d3.format(',.2f');
+  const num = (v) => (v == null || v === '' || isNaN(+v)) ? '—' : money(+v);
+  r.data.filter((x) => x.date === latest)
+    .sort((a, b) => (order[String(a.rating).toUpperCase()] ?? 5) - (order[String(b.rating).toUpperCase()] ?? 5))
+    .forEach((x) => {
+      const tr = document.createElement('tr');
+      tr.dataset.key = encodeURIComponent(x.ticker) + ',' + encodeURIComponent(x.date);
+      window.swCell(tr, x.ticker, 'sw-tk');
+      window.swCell(tr, window.swRatingPill(x.rating));
+      window.swCell(tr, num(x.price), 'sw-num');
+      window.swCell(tr, x.trigger, 'sw-wide');
+      window.swCell(tr, num(x.stop), 'sw-num');
+      window.swCell(tr, num(x.target), 'sw-num');
+      window.swCell(tr, x.shares == null || x.shares === '' ? '—' : String(x.shares), 'sw-num');
+      window.swCell(tr, num(x.risk_usd), 'sw-num');
+      window.swCell(tr, x.reason, 'sw-wide');
+      tb.appendChild(tr);
+    });
+});
+
+dash.draw('pos-line', (el) => {
+  const s = dash.data('position_summary');
+  const p = s.status === 'ok' && s.data ? s.data[0] : null;
+  if (!p) { el.textContent = '—'; return; }
+  if (!p.open && !p.closed) { el.textContent = 'No paper positions yet. One opens on the first buy or strong buy signal.'; return; }
+  let t = p.open + ' open, ' + p.closed + ' closed';
+  if (p.closed) t += '; ' + p.winners + ' of ' + p.closed + ' closed with a gain, averaging ' + window.swPct(p.avg_return) + ' against ' + window.swPct(p.avg_spy) + ' for the S&P 500 over the same days';
+  el.textContent = t + '.';
+});
+
+dash.draw('position-rows', (tb) => {
+  const r = dash.data('positions');
+  tb.replaceChildren();
+  if (r.status !== 'ok') return;
+  const money = d3.format(',.2f');
+  const num = (v) => (v == null || v === '' || isNaN(+v)) ? '—' : money(+v);
+  const rank = {open: 0, pending: 1, closed: 2, cancelled: 3};
+  r.data.slice().sort((a, b) => (rank[a.status] ?? 4) - (rank[b.status] ?? 4) || String(b.opened).localeCompare(String(a.opened)))
+    .forEach((x) => {
+      const tr = document.createElement('tr');
+      tr.dataset.key = encodeURIComponent(x.id);
+      window.swCell(tr, x.ticker, 'sw-tk');
+      window.swCell(tr, x.opened, 'sw-num');
+      window.swCell(tr, window.swRatingPill(x.rating_at_open));
+      window.swCell(tr, x.status);
+      window.swCell(tr, num(x.entry), 'sw-num');
+      window.swCell(tr, num(x.stop), 'sw-num');
+      window.swCell(tr, num(x.target), 'sw-num');
+      window.swCell(tr, x.shares == null || x.shares === '' ? '—' : String(x.shares), 'sw-num');
+      window.swCell(tr, num(x.last_price), 'sw-num');
+      const ret = window.swCell(tr, window.swPct(x.return_pct), 'sw-num sw-ret' + (+x.return_pct > 0 ? ' up' : +x.return_pct < 0 ? ' down' : ''));
+      window.swCell(tr, window.swPct(x.spy_return_pct), 'sw-num');
+      window.swCell(tr, x.exit_reason, 'sw-wide');
+      tb.appendChild(tr);
+    });
+});
+</script>
+
+<script>
+/* ---------- tabs ---------- */
+window.swShowTab = function (name) {
+  const tabs = document.querySelectorAll('.sw-tab');
+  let found = false;
+  tabs.forEach((b) => { if (b.dataset.tab === name) found = true; });
+  if (!found) name = 'watchlist';
+  tabs.forEach((b) => { b.setAttribute('aria-selected', b.dataset.tab === name ? 'true' : 'false'); });
+  document.querySelectorAll('.sw-sec[role="tabpanel"]').forEach((s) => { s.hidden = s.id !== name; });
+  if (window.dash && dash.setLink) dash.setLink(name);
+};
+document.querySelectorAll('.sw-tab').forEach((b) => {
+  b.addEventListener('click', () => window.swShowTab(b.dataset.tab));
+});
+(function () {
+  const h = (location.hash || '').replace('#', '');
+  if (h) window.swShowTab(h);
+})();
+
+/* ---------- KPI tiles ---------- */
+[['k-n', 'tickers'], ['k-sp', 'sp500'], ['k-sm', 'smallmid'], ['k-u', 'undervalued'], ['t-wl', 'tickers']].forEach(([name, field]) => {
+  dash.draw(name, (el) => {
+    const s = dash.data('summary');
+    el.textContent = s.status === 'ok' && s.data && s.data[0] && s.data[0][field] != null ? String(s.data[0][field]) : '—';
+  });
+});
+dash.draw('k-asof', (el) => {
+  const s = dash.data('summary');
+  const d = s.status === 'ok' && s.data && s.data[0] ? s.data[0].as_of : null;
+  el.textContent = d ? d3.utcFormat('%b %-d')(new Date(d + 'T00:00:00Z')) : '—';
+});
+dash.draw('k-hot', (el) => {
+  const s = dash.data('heat_latest');
+  el.textContent = s.status === 'ok' && s.data && s.data[0] ? s.data[0].ticker : '—';
+});
+dash.draw('k-hotn', (el) => {
+  const s = dash.data('heat_latest');
+  el.textContent = s.status === 'ok' && s.data && s.data[0] ? String(s.data[0].heat) : '—';
+});
+
+/* ---------- watchlist toolbar ---------- */
+window.swWl = { q: '', lane: '', label: '', sort: 'upside' };
+document.querySelectorAll('#wl-search').forEach((el) => {
+  el.addEventListener('input', () => { window.swWl.q = el.value.trim().toLowerCase(); dash.draw('watch-cards'); dash.draw('wl-shown'); });
+});
+document.querySelectorAll('#wl-lane button').forEach((b) => {
+  b.addEventListener('click', () => {
+    window.swWl.lane = b.dataset.v || '';
+    document.querySelectorAll('#wl-lane button').forEach((x) => x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
+    dash.draw('watch-cards'); dash.draw('wl-shown');
+  });
+});
+document.querySelectorAll('#wl-label').forEach((el) => {
+  el.addEventListener('change', () => { window.swWl.label = el.value; dash.draw('watch-cards'); dash.draw('wl-shown'); });
+});
+document.querySelectorAll('#wl-sort').forEach((el) => {
+  el.addEventListener('change', () => { window.swWl.sort = el.value; dash.draw('watch-cards'); });
+});
+
+window.swRange = function (s) {
+  const m = String(s || '').match(/\$?([\d,]+(?:\.\d+)?)\s*[–-]\s*\$?([\d,]+(?:\.\d+)?)/);
+  if (m) return [+m[1].replace(/,/g, ''), +m[2].replace(/,/g, '')];
+  const one = String(s || '').match(/\$([\d,]+(?:\.\d+)?)/);
+  return one ? [+one[1].replace(/,/g, ''), +one[1].replace(/,/g, '')] : null;
+};
+window.swUpside = function (r) {
+  const fv = window.swRange(r.fair_value);
+  if (!fv || !(+r.price > 0) || !/–/.test(String(r.fair_value || ''))) return -Infinity;
+  return ((fv[0] + fv[1]) / 2) / +r.price - 1;
+};
+window.swTraits = function (r) {
+  const m = String(r.profile || '').match(/^(\d+)\s+of\s+5/);
+  return m ? +m[1] : -1;
+};
+window.swRules = function (v) {
+  if (Array.isArray(v)) return v;
+  if (v == null || v === '') return [];
+  try { const p = JSON.parse(v); if (Array.isArray(p)) return p; } catch (e) { /* plain text */ }
+  return String(v).split(/;\s+(?=R-\d)/);
+};
+window.swFiltered = function (rows) {
+  const f = window.swWl;
+  return rows.filter((r) => {
+    if (f.lane && !String(r.universe || '').includes(f.lane)) return false;
+    if (f.label && String(r.label || '').toUpperCase() !== f.label) return false;
+    if (f.q) {
+      const hay = [r.ticker, r.company, r.sector, r.why, r.universe].join(' ').toLowerCase();
+      if (!hay.includes(f.q)) return false;
+    }
+    return true;
+  });
+};
+
+dash.draw('wl-shown', (el) => {
+  const w = dash.data('watchlist');
+  if (w.status !== 'ok') { el.textContent = '—'; return; }
+  const n = window.swFiltered(w.data).length;
+  el.textContent = n === w.data.length ? n + ' stocks' : 'Showing ' + n + ' of ' + w.data.length;
+});
+
+dash.draw('watch-cards', (box) => {
+  const w = dash.data('watchlist');
+  box.replaceChildren();
+  if (w.status === 'error') { box.textContent = 'Failed to load'; return; }
+  if (w.status !== 'ok') return;
+  const money = d3.format(',.2f');
+  const f = window.swWl;
+  let rows = window.swFiltered(w.data);
+  const by = {
+    upside: (a, b) => window.swUpside(b) - window.swUpside(a) || String(a.ticker).localeCompare(String(b.ticker)),
+    ticker: (a, b) => String(a.ticker).localeCompare(String(b.ticker)),
+    price: (a, b) => (+a.price) - (+b.price),
+    traits: (a, b) => window.swTraits(b) - window.swTraits(a) || String(a.ticker).localeCompare(String(b.ticker)),
+    new: (a, b) => (b.status === 'new') - (a.status === 'new') || String(b.added || '').localeCompare(String(a.added || '')) || String(a.ticker).localeCompare(String(b.ticker)),
+  }[f.sort] || (() => 0);
+  rows = rows.slice().sort(by);
+  if (!rows.length) {
+    const p = document.createElement('p'); p.className = 'sw-none';
+    p.textContent = w.data.length ? 'No stock matches these filters.' : 'The list is empty.';
+    box.appendChild(p); return;
+  }
+  const ns = 'http://www.w3.org/2000/svg';
+  const tip = document.createElement('div'); tip.className = 'sw-tip'; tip.hidden = true;
+  const mark = (el, field, r) => { el.dataset.source = 'watchlist'; el.dataset.field = field; el.dataset.where = 'ticker=' + encodeURIComponent(r.ticker); return el; };
+  const shortLane = (u) => /S&P/.test(u || '') ? 'S&P 500 · tested' : /Small/.test(u || '') ? 'Small/mid · untested' : (u || '—');
+
+  rows.forEach((r) => {
+    const card = document.createElement('article');
+    card.className = 'sw-wc';
+    card.id = 'wl-' + String(r.ticker).replace(/[^A-Za-z0-9_-]/g, '');
+
+    // top line
+    const top = document.createElement('div'); top.className = 'sw-wc-top';
+    const id = document.createElement('div'); id.className = 'sw-wc-id';
+    const tk = mark(document.createElement('span'), 'ticker', r); tk.className = 'sw-wc-tk'; tk.textContent = r.ticker;
+    const co = mark(document.createElement('span'), 'company', r); co.className = 'sw-wc-co'; co.textContent = [r.company, r.sector].filter(Boolean).join(' · ');
+    id.append(tk, co);
+    const px = document.createElement('div'); px.className = 'sw-wc-px';
+    const pr = mark(document.createElement('span'), 'price', r); pr.className = 'sw-wc-price'; pr.textContent = r.price == null || r.price === '' ? '—' : '$' + money(+r.price);
+    const pd = mark(document.createElement('span'), 'price_date', r); pd.className = 'sw-wc-date';
+    pd.textContent = r.price_date ? d3.utcFormat('%b %-d')(new Date(String(r.price_date).slice(0, 10) + 'T00:00:00Z')) : '—';
+    px.append(pr, pd);
+    top.append(id, px);
+
+    // pills
+    const pills = document.createElement('div'); pills.className = 'sw-wc-pills';
+    const lab = mark(window.swPill(r.label), 'label', r);
+    const lane = mark(document.createElement('span'), 'universe', r); lane.className = 'sw-pill mute'; lane.textContent = shortLane(r.universe);
+    const lean = mark(window.swPill(r.lean), 'lean', r);
+    pills.append(lab, lane, lean);
+    if (r.status === 'new') { const nw = mark(document.createElement('span'), 'status', r); nw.className = 'sw-pill warn'; nw.textContent = 'new'; pills.append(nw); }
+
+    // gauge: price vs 1-month range vs fair value
+    const g = document.createElement('div'); g.className = 'sw-gauge';
+    const fv = window.swRange(r.fair_value), r1 = window.swRange(r.range_1m), p = +r.price;
+    const vals = [p].concat(fv || [], r1 || []).filter((x) => x > 0);
+    if (vals.length > 1) {
+      const lo = Math.min(...vals), hi = Math.max(...vals), pad = (hi - lo) * 0.06 || 1;
+      const x = (v) => ((v - (lo - pad)) / ((hi + pad) - (lo - pad))) * 100;
+      const svg = document.createElementNS(ns, 'svg');
+      svg.setAttribute('viewBox', '0 0 100 18'); svg.setAttribute('preserveAspectRatio', 'none'); svg.setAttribute('height', '18');
+      svg.setAttribute('role', 'img');
+      svg.setAttribute('aria-label', r.ticker + ': price ' + money(p) + (r1 ? ', one-month range ' + r.range_1m : '') + (fv ? ', fair value ' + r.fair_value : ''));
+      const rect = (a, b, y, h, fill, op) => { const e = document.createElementNS(ns, 'rect'); e.setAttribute('x', x(a)); e.setAttribute('width', Math.max(0.8, x(b) - x(a))); e.setAttribute('y', y); e.setAttribute('height', h); e.setAttribute('rx', 1.5); e.style.fill = fill; if (op) e.style.opacity = op; return e; };
+      const base = document.createElementNS(ns, 'rect'); base.setAttribute('x', 0); base.setAttribute('width', 100); base.setAttribute('y', 8); base.setAttribute('height', 2); base.style.fill = 'var(--cds-chart-grid)';
+      svg.append(base);
+      if (r1) svg.append(rect(r1[0], r1[1], 5, 8, 'var(--cds-chart-muted)', 0.55));
+      if (fv) svg.append(rect(fv[0], fv[1], 7, 4, 'var(--color-ok)', 0.85));
+      const tick = document.createElementNS(ns, 'rect'); tick.setAttribute('x', x(p) - 0.6); tick.setAttribute('width', 1.2); tick.setAttribute('y', 1); tick.setAttribute('height', 16); tick.style.fill = 'var(--color-fg)';
+      svg.append(tick);
+      svg.addEventListener('pointermove', (ev) => {
+        const b = box.getBoundingClientRect();
+        tip.textContent = 'Price $' + money(p) + (r1 ? ' · 1-month ' + r.range_1m : '') + (fv ? ' · fair value ' + r.fair_value : '');
+        tip.hidden = false;
+        tip.style.left = Math.max(4, Math.min(ev.clientX - b.left + 10, b.width - tip.offsetWidth - 4)) + 'px';
+        tip.style.top = (ev.clientY - b.top - 34) + 'px';
+      });
+      svg.addEventListener('pointerleave', () => { tip.hidden = true; });
+      g.append(svg);
+    }
+    const key = document.createElement('div'); key.className = 'sw-gauge-key';
+    const k1 = document.createElement('span'); const i1 = document.createElement('i'); i1.style.background = 'var(--cds-chart-muted)';
+    const v1 = mark(document.createElement('span'), 'range_1m', r); v1.textContent = r.range_1m || '—';
+    k1.append(i1, '1 month ', v1);
+    const k2 = document.createElement('span'); const i2 = document.createElement('i'); i2.style.background = 'var(--color-ok)';
+    const v2 = mark(document.createElement('span'), 'fair_value', r); v2.textContent = r.fair_value || '—';
+    k2.append(i2, 'Fair value ', v2);
+    key.append(k1, k2);
+    g.append(key);
+
+    const why = mark(document.createElement('p'), 'why', r); why.className = 'sw-wc-why'; why.textContent = r.why || '';
+
+    // details
+    const det = document.createElement('details');
+    const sum = document.createElement('summary'); sum.textContent = 'Details and rules';
+    const dl = document.createElement('dl');
+    const add = (label, field, val) => {
+      if (val == null || val === '') return;
+      const dt = document.createElement('dt'); dt.textContent = label;
+      const dd = mark(document.createElement('dd'), field, r);
+      if (val instanceof Node) dd.append(val); else dd.textContent = val;
+      dl.append(dt, dd);
+    };
+    add('Profile', 'profile', r.profile);
+    add('Long-term view', 'long_term', r.long_term);
+    add('3-month range (1 SD)', 'range_3m', r.range_3m);
+    add('What would change the label', 'change_trigger', r.change_trigger);
+    add('Next earnings', 'next_earnings', r.next_earnings);
+    const rules = window.swRules(r.rules_fired);
+    if (rules.length) {
+      const ul = document.createElement('ul');
+      rules.forEach((x) => { const li = document.createElement('li'); li.textContent = x; ul.append(li); });
+      add('Rules fired', 'rules_fired', ul);
+    }
+    add('On the list since', 'added', r.added);
+    det.append(sum, dl);
+
+    card.append(top, pills, g, why, det);
+    box.appendChild(card);
+  });
+  box.appendChild(tip);
+});
+</script>
