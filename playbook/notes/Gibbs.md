@@ -1,0 +1,92 @@
+# Gibbs — How to Day Trade Penny Stocks for Beginners (2019; title page also names Bill Sykes) — notes (read 2026-11-11, in chat)
+## Chunk loc.1–loc.13 (read)
+- loc.1–3: front matter, disclaimer ("educational and entertainment purposes"), contents. Body text title differs ("Penny Stocks for Beginners: A Complete Guide…", loc.3) — repackaged text.
+- loc.5: claims understanding risk can earn 12% vs a "standard 7%" — unsourced, not carried.
+- loc.6–8: investing vs trading penny stocks: book says investing (research, hold) is better for novices; traders aim for 10–20% a trade, trade many times a week. → principle D.
+- loc.8: SEC defines a penny stock as under $5; many trade at or below $1, mostly OTC Bulletin Board / Pink Sheets; companies have heavily diluted shares. → context (agrees with R-021's <$5 definition).
+- loc.8–9: book's stated aim: get in at the earliest stage and get out before the company becomes popular or fails; "most of them will" fail. → principle D.
+- loc.9: the SEC can halt trading in a penny stock rising irregularly fast; during a halt holders can't sell. → principle D (halt risk).
+- loc.10–11: claims penny stocks are more profitable because big exchanges are dominated by algorithms and need large capital — assertion, D; not carried as a rule.
+- loc.11–12: shortcomings: Pink Sheet companies needn't file regular reports; little media coverage; leadership/history hard to check; thin liquidity — no buyers in a falling market. → agrees Regan loc.5–8 / R-027 (D).
+- loc.12–13: pump-and-dump mechanics: promoters buy cheap, hype via calls/newsletters/fake news, sell into the rise, stop promoting; late buyers take the losses. → agrees Regan loc.16–19 principle (D).
+- loc.13: penny-stock holdings need active monitoring; conditions change week to week; more trades → more commission. → principle D.
+## Chunk loc.14–loc.25 (read)
+- loc.14: expect modest returns — big winners are rare; never buy on a story alone, check price-to-book, price-to-sales etc.; invest only disposable money, never rent/food/car money. → principle D.
+- loc.14: penny stocks may be impossible to sell into a rise before it fades. → agrees liquidity principle (D).
+- loc.15–16: Pink Sheets: no listing standards (a Form 211 is enough), no duty to publish reports; OTCBB issuers must register with the SEC. → context.
+- loc.16: "look for companies that recently suffered negative events but could come back", e.g. former NYSE listings. → assertion only; principle D at most (not carried).
+- loc.17: thin trading: selling pushes the price down; wide bid-ask spreads; no analyst or press coverage. → agrees Regan loc.9 / R-027 (D).
+- loc.17–19: OTC Markets tier system as the book describes it: trusted (QX), transparent (OTCBB, current information), distressed (limited information, stale >6 months), defunct (no information / grey market), toxic (caveat emptor: scams, promotions, suspensions). Book's tier names are partly garbled/dated.
+- loc.20: focus on OTCQX and OTCQB; the other categories give too little information; beware "expert" advertisements; do the research yourself. → RULE candidate: OTC tier filter (inputs: OTC Markets tier → OTC Markets Group site). D.
+- loc.21: research the stock's history of price reactions to events; a price that failed to rise when it should have suggests investors are avoiding it. → principle D.
+- loc.22–23, 25: broker types, commissions, account opening; per-share commissions suit small accounts. → not carried (operational).
+- loc.24: SELECTION SCREEN for penny stocks: (1) price $0.50–$2; (2) average daily volume of at least 100,000 shares; (3) the stock is moving higher; (4) avoid companies whose earnings growth is negative (SEC filings). → RULE candidate (D). "Moving higher" not defined → trend test is a parameter. Conflict with R-027's low-price exclusion → decided by strategy as with R-021.
+## Chunk loc.26–loc.37 (read)
+- loc.26–30: paper-trading routine: budget close to the real one; include real broker fees; focus on one sector; follow ~5 companies and note how each behaves in up and down markets; practise short (<1 month), mid (1–6 months) and long (6+ months) holds; diversify even on paper; keep a journal; review best and worst trades weekly with the reason for each; benchmark against the sector (one sector) or the market (several); drop information sources that keep proving false. → agrees practice and journal principles (D); new principle: benchmark against the sector/market and score your sources (D).
+- loc.27: example target of 5% a month to reach +50% in eight months → illustration only, not carried.
+- loc.30: if fear of loss hurts performance, move to lower-risk stocks or a calmer sector. → agrees Anderson loc.61 principle (D).
+- loc.31–35: broker comparison with 2019 commissions, minimums and sign-up bonuses (Schwab, E-Trade, Merrill Edge, Interactive Brokers, Ameritrade, TradeStation) → dated, promotional; not carried.
+- loc.35: research the stock's history — penny-stock patterns repeat. → principle D (generic).
+- loc.36: share price alone says nothing about value: compare market cap (price × shares outstanding); a $0.05 stock with 1bn shares and a $50 stock with 1m shares have the same $50M market cap. → principle D (judge size by market cap and share count, not price).
+- loc.37: dilution: frequent issuance (employee options, capital raises) cuts existing holders' share and price; avoid companies that dilute constantly. → RULE candidate: share-count growth filter (shares outstanding history → 10-Q/10-K); no threshold given (test parameter). D.
+## Chunk loc.38–loc.49 (read)
+- loc.38–39: judge the company first: frequent dilution, a path to profit, competitive position against named competitors; sectors where sub-$1 shares are common (mining) lean on new issuance and heavy competition; one success story (HudBay Minerals) cited without data. → principle D.
+- loc.39–40: tips reach thousands at once, leaving "scraps"; research filings and news yourself; "bet on a stock's price action" (the chart) rather than chat rooms or paid alert gurus. → agrees Wyckoff tips principle / Regan loc.21 (D).
+- loc.40: look for stocks breaking out to new highs that are holding the morning high and still up on the day; caution on Friday afternoons (possible short squeeze into the close); "piggyback" on stocks already moving up; VWAP mentioned without definition. → RULE candidate, day-trading (intraday inputs), D, no stop given.
+- loc.41–42: payoff stories ($0.09 → $9; >1,000% in weeks) from message boards — anecdotes, not carried as evidence.
+- loc.43: claims "a ton of studies" show short-term penny trading is less risky than long-term holding (no study named) → contradicts the book's own advice that investing is better for novices (loc.6–8): FLAG inconsistency; D. "Buy the lows of the wave, sell the highs" — generic range advice, agrees R-007 spirit (D, not merged: no levels).
+- loc.43–45: pump-and-dump warnings; Enron offered as a pump and dump (it was accounting fraud in a large cap — mischaracterized, flag); Jonathan Lebed message-board case (SEC settlement). → agrees Regan/Gibbs loc.12 principle.
+- loc.45–47: don't expect too much; before entering set the gain you'll take, the loss you'll accept and an exit plan. → agrees "set the exit before entering" principle (D).
+- loc.48: don't let a loss push you into a bigger, rushed next trade; keep trading money separate from living money. → agrees Heitkoetter revenge-trading principle (D).
+- loc.49: keep a journal of every trade and your reasoning; learn your own style (size, timing, diversification). → agrees journal principle (D).
+## Chunk loc.50–loc.62 (read)
+- loc.50: dollar-cost averaging: buy fixed amounts at pre-set intervals regardless of price rather than all at once; book calls it "proven to work" (no evidence); downside = a commission on every purchase. → RULE candidate (D); CONFLICT with R-022 (it adds regardless of price) — decided by instrument/horizon.
+- loc.51: reverse mergers: search for penny stocks that went public via reverse merger with an operating private company; may rise if the business grows, or fail. → principle D (no trigger).
+- loc.51–52: stop-losses: use automatic (broker) stops if allowed; mental stops need a price alert; sell without excuses when hit. → agrees Salvon loc.20 (hard stop at the broker) and "set the exit" principle (D).
+- loc.52–53: avoiding whipsaw stop-outs: put stops on high-volume and historically low-volatility stocks; for stocks expected to swing widely, set the stop near 25% below cost instead of 5–10%; buy on dips. → agrees R-061 (wide percentage stop from cost) (D).
+- loc.53: position sizing: cap each purchase at a set share of the portfolio (example $500 of $10,000 ≈ 5%; $4,000 of $240,000); very small accounts ($3,000) can't sensibly split into 10. → agrees R-040 (D).
+- loc.54: take profits when a stock is well up, especially if analysis suggests a decline; accept losses and learn. → generic (D), agrees existing principles.
+- loc.54–55: moving averages: use two; short crossing above long = buy signal (uptrend), below = sell; pick a reliable length (example "seven-day MA"; no lengths recommended). → agrees R-026 (D).
+- loc.55–57: risks: spam promotions, dilution, OTC/Pink Sheets lack minimum standards (beginners should stick to major exchanges), short squeezes, scarce information, low liquidity, pump-and-dumps. → agrees existing principles (D); "start on a major exchange" new principle D.
+- loc.57–58 (ten protections): research; ignore emailed or social-media tips; read newsletter disclaimers (paid promotions); never rely on management's statements about its own stock; → principle D (in mild tension with Wyckoff p.123 confirming facts with the company — facts vs promotion).
+- loc.58: "be quick to sell": take 20–30% gains made in a few days; don't hold out for 1,000%. → RULE candidate (profit target for penny stocks), D.
+- loc.59: don't trade more than about 10% of a stock's daily volume. → agrees R-027 (gives the missing number), D. Only penny stocks trading at least 100,000 shares a day (repeats loc.24). Set your own risk-reward limits and stick to them → agrees R-010/exit principle. Don't get attached; be cynical; diversify. → principle D.
+- loc.59: earnings breakout: penny stocks with good earnings breaking out to 52-week highs on at least 250,000 shares a day; beware a pump-and-dump behind the high. → RULE candidate, growth/momentum, D.
+- loc.60–61: fictional "WEX" example: quick ratio 1.3, operating cash-flow ratio 0.8, P/B just above 1 read as "low"; P/S stated as "11.50 to 5" — the book divides sales per share by price backwards (sales/share $11.50 at a $5 price is P/S ≈ 0.43) → FLAG error; example screen: price < $4, P/B ≥ 1, quick ratio ≥ 1 (illustration only). → principle D at most.
+- loc.61–62: qualitative checks: branding, distinct positioning, focus, communication with customers and investors, consistent style. → principle D.
+## Chunk loc.63–loc.75 (read)
+- loc.63: fundamental vs technical analysis; pick by "investor personality". → generic.
+- loc.64: trade sectors you know; media- and tip-sheet-hyped penny stocks overinflate then plummet on poor fundamentals. → principle D (agrees hype principles).
+- loc.64: pre-market success checks: a patent on the core invention (or progress toward one); financing from a solid source and enough money to stay afloat at least 12 more months; marketing partners; government grants or purchase talks. → RULE candidate: cash runway ≥ 12 months (cash and committed financing vs operating burn → 10-Q), value, D. Patents/partners/government interest → principle D.
+- loc.65: debt over three times the value of assets = very vulnerable. → part of solvency RULE (balance sheet), D.
+- loc.65: "winning penny stock investors… are already holding" before a media spike; when a holding spikes, usually sell within one hour (no longer than 3 months) after the initial spike, since it usually falls back. → merges with the "be quick to sell" profit-taking RULE (loc.58), D.
+- loc.66–68: liquidity ratios with the book's benchmarks: current ratio ≥ 1 (1/3 = stay away), quick ratio ≥ 1, cash ratio ≥ 1 ("good benchmark", not a deal-breaker), operating cash-flow ratio ≥ 1 = cash from operations covers 12 months of current liabilities ("really good sign"). Ideal = solvent AND cheap on P/B, P/E, P/S. → solvency RULE (value, D).
+- loc.68–69: P/B: buying below book (example 3/4) limits the loss if the company fails; book itself gives the opposite reading too. → principle D.
+- loc.69–70: judge growth quarterly, not year over year (the example uses market cap as "growth" — conflates price with business growth, flag). → principle D.
+- loc.70: prices rise on demand; growing sales aren't required but mark many big winners. → principle D.
+- loc.71: P/E section defines P/E with revenue per share and uses $6M "earnings" interchangeably with revenue → FLAG error; low P/E = cheaper (generic). Not carried as a rule.
+- loc.72: when there are no earnings use price-to-sales and price-to-cash-flow; "a good benchmark for a strong penny stock is when its share price is half the value of its per-share sales" (P/S ≤ 0.5); check P/CF and P/S are coherent across several reports. → RULE candidate (value, D).
+- loc.73–75: technical analysis: book says TA lets you skip fundamentals and trade short-term (contradicts its own research-first advice: flag), then recommends combining both; TA users avoid holding overnight/weekends; plan on 20–40 hours a week of chart work; TA means smaller, more frequent gains and missing big moves; patterns are more reliable when built on high volume (poll analogy). → principles D (combine TA with fundamentals; volume makes patterns more reliable).
+## Chunk loc.76–loc.88 (read)
+- loc.76: TA on penny stocks is restricted by thin trading; a pattern formed when ~1% of shares outstanding trade daily is "most likely unreliable", and one formed on 5% of shares daily is "highly reliable". → RULE candidate: technical signals count only if daily volume ≥ ~5% of shares outstanding (swing-technical, D). Agrees with loc.75 volume principle.
+- loc.77: myth of the evolving stock; why companies list as pennies (big expenditure, or owners exiting); companies range widely. → principle D.
+- loc.78: protection list: stick to higher-caliber markets (AMEX, NASDAQ, OTCBB) over OTC/pink sheets when starting; do own research; avoid free stock picks; stick to solid fundamentals. → merges with OTC tier filter (loc. earlier) and tip principles.
+- loc.79: beware story stocks (great concept, weak finances, price pushed far above value); call investor relations; paper trading steps begin. → principles D.
+- loc.79–80: paper-trade until consistently profitable before using real money: record stock, date, dollar amount, price; trade many names; log what worked. → principle D (process); agrees with existing paper/journal principles.
+- loc.80–81: scams: OTCBB vs pink sheets (pink sheets unregulated); spam, message-board aliases, paid promoters, boiler rooms, dubious press releases; report to broker/SEC. → principle D (agrees hype/tips principles).
+- loc.81: why people buy pennies (lottery, "hidden knowledge"); illiquidity: buyers drive the price up and find no buyers on exit. → principle D.
+- loc.82: think like an owner; wealth comes from compounding in high-quality stocks, not pennies; frictional costs from illiquidity erode profit. → agrees cost principle.
+- loc.82–83: scam types: reverse merger, pump-and-dump (often via paid free newsletters), short-and-distort, guru scams. → principle D.
+- loc.84: check management track record and legal issues; separate research from promotion by reading the "disclosures" section (paid?); quality of disclosure. → principle D (process): read newsletter disclosure for payment before acting on any tip.
+- loc.85: focus list: consistent earnings growth, 52-week highs, earnings breakout, volume ≥100,000 shares (repeats loc.~ breakout rule; note 100k here vs 250k earlier — inconsistency flag); longer search time; ignore tips; read disclaimers; sell fast-growing stocks quickly when up ~25% within days (pump risk). → merges into take-profit RULE (20–30% within days).
+- loc.86: shorting pennies best left to professionals. → agrees shorting principle. Buy only stocks trading ≥100,000 shares/day; never trade more than 10% of daily volume (example 10,000 of 100,000). → merges liquidity (R-027) and penny screen.
+- loc.86–87: keep learning; only ~5–10% of investors consistently profit (assertion); ignore chat rooms/message boards; demand a mentor's trade records and tax statements. → principle D (agrees message boards).
+- loc.87: trading journal: moves, position size, profit/loss. → agrees journal principle.
+- loc.87: give back to community → not trading content.
+- loc.88: respect risk; most penny issuers don't meet SEC filing requirements; position must not be big enough to move the price → agrees R-027. "About 99 percent of every penny stock company will ultimately fail" (assertion, D). Adjust profit expectations: don't try to make more than ~$0.75 a share; keep trades small → principle D.
+## Chunk loc.89–loc.93 (read) — END OF BOOK (last marker loc.93)
+- loc.89: take care of your health → not trading content.
+- loc.89–90: screen advisors: media superstar (check the track record), fragile ego (insists a stock is undervalued for years against the evidence), sociopath (commission-driven). → principle D.
+- loc.90: demand a verifiable track record of at least a year; verify by following an advisor's picks forward and comparing them with the reported record. → principle D (process); agrees mentor-records principle.
+- loc.91: conclusion: whatever the style, know total trading volume and liquidity; day trading needs a full day and at least four bets a day (day-trading, D — principle, no measurable trigger); value trading = patent or asset not reflected in market cap plus enough liquidity to sell after re-pricing; stick to sectors you know; keep a trade log and do one week of paper trading; common day-trader mistake = misjudging liquidity (can't sell); common value mistake = overvaluing an asset. → principles D.
+- loc.92–93: review request, references (Investopedia, The Balance/Leeds "6 proven financial ratios", wikiHow, etc.), table of contents. Book's ratio benchmarks (loc.66–68) appear sourced from Leeds (2019) — still graded D: cited source, no data or method shown in this book.

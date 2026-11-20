@@ -1,0 +1,12 @@
+# Notes — Baumgartner, Market Manipulation in the VIX (Diplomica, 2021; thesis-style study) — read 2026-11-09 in chat.
+p.2–4    Imprint, contents; p.3 table page (omitted).
+p.5–7    Question: are the illiquid S&P 500 index options that set the VIX settlement value used to manipulate it? Daily data, compares settlement days with other days (index range, put/call ratio, volume). Literature: Griffin & Shams (intraday volume spikes) vs Saha et al. (no evidence, daily closes).
+p.8–10   VIX = 30-day implied vol from out-of-the-money SPX options with 23–37 days to expiry, two expiries blended; deep OTM puts carry the most weight (p.10).
+p.11–12  VIX futures (2004) and options (2006) are cash-settled; VIX strongly negatively correlated with stocks → used as a hedge (p.12).
+p.13     XIV (inverse short-term VIX ETN) was worth near zero after the VIX more than doubled in Feb 2018 and the sponsor redeemed it — short-vol products can be wiped out in one spike.
+p.13–14  VIX is mean-reverting: spikes are usually followed by a return toward the long-run level; calm stretches end with a surprise; no long-term upward drift (cites Bašta & Molnár 2018, Whaley 2008 → B). It reflects fear of falls more than greed.
+p.14–15  Feb 2018 biggest one-day VIX move; Apr 18 2018 VIX +10% within minutes on a settlement day with no matching S&P move; Cboe said a single participant's 212,000-contract order created a buy imbalance at the settlement auction (p.15).
+p.15–16  Settlement: VIX derivatives expire 30 days before SPX options, usually 3rd/4th Wednesday; value set by the Special Opening Quotation auction (indicative quotes from 7:30, book frozen 8:20–8:30 for relevant series except market makers, single clearing price at 8:30). Zero-bid rule drops deeper strikes. The settlement day also rolls one option series out, which shifts the value by construction (p.16–17).
+p.18–22  Definition of manipulation; manipulator buys VIX calls/futures then bids up the heavily weighted OTM SPX options in the auction; counterparties who fade manipulated option prices profit in the long run (theory, p.21); legitimate participants in VIX derivatives bear the cost.
+p.23–24  Detection: wider daily range, abnormal settlement-day volume, put/call-ratio shifts, compared with a sliding window of prior days; window length is a judgment call.
+p.25     Data: Cboe + Thomson Reuters Datastream, daily, 2011–2019; assumes manipulation concentrates on settlement day.

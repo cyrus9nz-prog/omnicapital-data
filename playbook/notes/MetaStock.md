@@ -1,0 +1,22 @@
+# Notes — MetaStock (ed.), Secrets of Successful Traders, 2nd ed. (Thomson Reuters, 2010) — read 2026-11-09 in chat. Vendor booklet of short essays by 8 practitioners; no tests or trade records → D unless noted.
+p.1–4    Cover, disclaimer, table page p.3 (omitted), intro.
+p.5–9    Robert Deel, "16 rules" (paraphrase):
+  p.5  written plan with loss limit and profit target before entry; screen by momentum and trend; always look at the 1-year chart; never trade against the trend.
+  p.6  stay with the trend: 50-day EMA = intermediate trend, 12-day EMA = short-term; when the trend turns, take profits or tighten stops → RULE candidate (12/50 EMA trend filter).
+  p.6  money management: cut losses quickly; never hedge with options to justify holding a loser; risk ≤3% of capital on an overnight trade, ≤1% on a day trade → AGREES R-009 (different caps).
+  p.6  only liquid stocks: float in the millions, average volume large enough to sell the whole position in one day; avoid low-priced stocks → RULE candidate (liquidity/exit-in-a-day).
+  p.7  no hot tips; NO averaging down ("disaster cost averaging") → AGREES Regan loc.15 no-averaging rule; always use stops overnight.
+  p.8  trade only when the market, sector and correlated stocks are trending (fold into trend rule); keep a mistakes log.
+  p.8–9 learn to short; author claims markets fall 67–80% faster than they rise (author claims).
+p.10–14  Price Headley: written plan (entries with catalyst and low risk vs reward; initial stop where the trend is invalidated + trailing stop; limit orders to enter, market orders to exit); position size typically 10% of account (5–20% range) with portfolio risk per trade under 2% (AGREES R-009); no more than ~7 positions at once (RULE candidate: position-count cap) (p.10). Journal + monthly post-trade review (p.11). Perfectionist fix: buy half when reward ≥3× risk at the current price, place the other half at the ideal price; exit with market orders (p.12) → RULE candidate (half-now entry). After a losing streak paper-trade signals; build a "success profile" and exit trades that stop fitting it (p.13). Confidence/process goals (p.14).
+p.15–19  Martha Stokes: charts don't predict; use pattern-based stops rather than fixed-percentage stops (p.15); price, time and volume; use 3–5 indicators matched to market condition — MACD suits trending markets, stochastics suits ranges and fails in fast trends (p.18) (principle).
+p.20–22  Steve Nison: candle basics; a cluster of small real bodies ("spinning tops") after a rally warns momentum is fading (p.22) (principle, no size threshold).
+p.23     Doji after a breakout = bulls not in full control (warning, not a sell signal); a close above the doji "refreshes" the market.
+p.24     Hammer criteria: body in the upper part of the range, lower shadow at least 2× the body, little/no upper shadow; often bases sideways before rallying; a close under the hammer's low negates it; two hammers at a support line = stronger (intraday example) → RULE candidate (C).
+p.25     Engulfing patterns; bullish engulfing at a support set by a hammer (IBM) → stronger when two signals agree. Candles are a tool, not a system — use stops, reward/risk, trend context.
+p.27–30  Barbara Star: ADX(14) + MACD. Confirming (ADX rising, MACD above trigger and zero) = uptrend; Diverging (ADX rising, MACD below trigger and zero) = downtrend; Converging (ADX turning down, MACD rising toward zero after a decline) = usually a countertrend rally. ADX 20–30 mild/moderate trend, >30 strong. Chart examples only → RULE candidate (C).
+p.31–35  Shawn Lucas: volatility shift = compare latest swing size (average price cycle) and swing duration (average time cycle) with their averages; 9 patterns (bigger swings or shorter cycles = rising volatility). (principle)
+p.36–39  Daryl Guppy MMA: short group EMAs 3/5/10/12/15 (traders), long group 30/35/40/45/50/60 (investors). Breakout while the long group is widely spread = likely rally only; long group compresses then turns up and expands = trend change; pullback with the long group still separated and rising = buy. Real-time case with author's own trade; author claims 11%, 49%, 30% for the three phases → RULE candidate (C).
+p.40–41  John Bollinger 15 rules: bands = relative high/low; confirm with indicators from a different category (avoid collinearity); prices can walk the bands; closes outside can be continuation; adjust SD with length (2.1 at 50, 1.9 at 10); a band tag is not a signal by itself. (principles)
+p.42     Software ad.
+END OF BOOK reached p.42.

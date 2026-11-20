@@ -2,11 +2,13 @@
 
 Working files for Cyrus's Stock Desk: the rules playbook, the desk's ledgers and research, the scout's screening and valuation code, the dashboard page, and dated watchlist snapshots. Analysis only — nothing here is an order or advice.
 
-Mirrored from the OMNI 2.0 Claude Project (`OmniCAPITAL/knowledge/`) on 2026-11-20. The project copy is the working one; this repo is a snapshot unless a job says otherwise.
+Mirrored from the OMNI 2.0 Claude Project (`OmniCAPITAL/knowledge/`) and the books folder on Cyrus's Mac. The playbook, library, reading notes and run reports are pushed after every book-ingest run; the other files are snapshots unless a job says otherwise.
 
 ## Layout
 - `playbook/playbook.md` — the rules ledger (R-### rules with page cites and evidence grades), built from the book library.
 - `playbook/library.md` — the book ingest queue and status.
+- `playbook/notes/<Key>.md` — running notes taken while reading each book (paraphrased, with loc/page markers).
+- `playbook/runs/<date>-<Key>.md` — the short report written after each book is ingested.
 - `playbook/scanning-rules.md`, `playbook/knowledge-base.md`, `playbook/evals-track-record.md` — OmniCapital's developed rules, durable context and eval set.
 - `desk/stock-desk-config.md` — settings every daily job reads first (account size, risk tiers, universe, data sources, heat score, schedule).
 - `desk/calls-ledger.md` — every verdict and rating, append-only. `desk/signals.md` — latest ratings and paper positions. `desk/rule-paper-tally.md` — review tallies per rule. `desk/morning-brief.md` — latest pre-open alerts.
